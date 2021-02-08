@@ -27,7 +27,7 @@ class BookstoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)
-        //sharedPreferences.edit().clear().apply()
+
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(BookstoreViewModel::class.java)
         viewModel.putSharedPreferences(sharedPreferences)

@@ -23,7 +23,7 @@ class BookshelfActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)
-
+        //sharedPreferences.edit().clear().apply()
         binding = BookshelfBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(BookshelfViewModel::class.java)
@@ -48,11 +48,14 @@ class BookshelfActivity : AppCompatActivity() {
             showWallet()
         })
 
-        viewModel.getAllData()
-
         binding.bookstoreButton.setOnClickListener {
             startActivity(Intent(this, BookstoreActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllData()
     }
 
     fun showWallet()
