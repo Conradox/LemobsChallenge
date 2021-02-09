@@ -1,4 +1,4 @@
-package com.example.lemobschallenge.pages
+package com.example.lemobschallenge.view.bookshelf
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.lemobschallenge.MainViewModel
 
 import com.example.lemobschallenge.databinding.FragmentBookshelfBinding
-import com.example.lemobschallenge.pages.adapter.BookshelfItemAdapter
 
 class BookshelfFragment : Fragment() {
     lateinit var viewModel: MainViewModel
@@ -36,19 +35,20 @@ class BookshelfFragment : Fragment() {
 
         binding.bookshelfRecycleview.layoutManager = GridLayoutManager(activity, 3)
 
+        /*
         viewModel.purchasedBooks.value?.let{
-            binding.bookshelfRecycleview.adapter = BookshelfItemAdapter(it)
+
         }
+        */
 
         viewModel.purchasedBooks.observe(viewLifecycleOwner, Observer {
-            binding.bookshelfRecycleview.adapter?.notifyDataSetChanged()
+            binding.bookshelfRecycleview.adapter = BookshelfItemAdapter(it)
+            //binding.bookshelfRecycleview.adapter?.notifyDataSetChanged()
         })
 
         viewModel.walletValue.observe(viewLifecycleOwner, Observer {
             showWallet()
         })
-
-        showWallet()
 
         return view
     }

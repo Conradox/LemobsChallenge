@@ -1,4 +1,4 @@
-package com.example.lemobschallenge.pages.adapter
+package com.example.lemobschallenge.view.bookshelf
 
 import android.view.LayoutInflater
 import android.view.View

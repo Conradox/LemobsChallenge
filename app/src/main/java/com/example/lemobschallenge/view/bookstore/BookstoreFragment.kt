@@ -1,6 +1,5 @@
-package com.example.lemobschallenge.pages
+package com.example.lemobschallenge.view.bookstore
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.lemobschallenge.MainViewModel
-import com.example.lemobschallenge.pages.adapter.BookstoreItemAdapter
 import com.example.lemobschallenge.model.Book
 import com.example.lemobschallenge.databinding.FragmentBookstoreBinding
 
@@ -31,8 +29,6 @@ class BookstoreFragment : Fragment() {
     ): View? {
         super.onCreate(savedInstanceState)
 
-        //val sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE)
-
         activity?.let{
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
@@ -41,12 +37,14 @@ class BookstoreFragment : Fragment() {
 
         val view = binding.root
 
-
+        binding.bookstoreRecycleview.layoutManager = GridLayoutManager(activity, 2)
         viewModel.showedBooks.value?.let{
-            binding.bookstoreRecycleview.adapter = BookstoreItemAdapter(it, ::buy_book, ::favorite_buttton, ::showImage)
+            binding.bookstoreRecycleview.adapter = BookstoreItemAdapter(it, ::buyBook, ::favoriteButton, ::showImage)
         }
 
-        binding.bookstoreRecycleview.layoutManager = GridLayoutManager(activity, 2)
+        viewModel.availableBooks.observe(viewLifecycleOwner, Observer {
+            viewModel.createShowedBooks()
+        })
 
         viewModel.showedBooks.observe(viewLifecycleOwner, Observer {
             binding.bookstoreRecycleview.adapter?.notifyDataSetChanged()
@@ -71,15 +69,17 @@ class BookstoreFragment : Fragment() {
         } )
 
         binding.refreshButton.setOnClickListener{
-            viewModel.getAllData()
+            viewModel.getAvailableBooks()
         }
+        viewModel.showedBooks.value = viewModel.showedBooks.value
+        Log.d("Debugging", viewModel.showedBooks.value?.size.toString())
 
         return view
 
     }
 
-    fun buy_book(book : Book) {
-        if (viewModel.buy_book(book) == 1)
+    private fun buyBook(book : Book) {
+        if (viewModel.buyBook(book) == 1)
         {
             Toast.makeText(activity, "Compra realizada com sucesso!", Toast.LENGTH_SHORT).show()
         }else
@@ -88,14 +88,14 @@ class BookstoreFragment : Fragment() {
         }
     }
 
-    fun showWallet()
+    private fun showWallet()
     {
         binding.walletValue.text = "%.2f".format(viewModel.walletValue.value).replace(".", ",")
     }
 
-    fun favorite_buttton(book : Book)
+    fun favoriteButton(book : Book)
     {
-        viewModel.favorite_buttton(book)
+        viewModel.favoriteButton(book)
         binding.bookstoreRecycleview.adapter?.notifyDataSetChanged()
     }
 

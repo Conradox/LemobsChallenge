@@ -1,4 +1,4 @@
-package com.example.lemobschallenge.pages.adapter
+package com.example.lemobschallenge.view.bookstore
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +12,8 @@ import com.squareup.picasso.Picasso
 
 class BookstoreItemAdapter (
         val books: MutableList<Book>,
-        val buy_book : (book: Book) -> Unit,
-        val favorite_button : (book: Book) -> Unit,
+        val buyBook : (book: Book) -> Unit,
+        val favoriteButton : (book: Book) -> Unit,
         val showImage : (book: ImageView) -> Unit) : RecyclerView.Adapter<BookstoreItemAdapter.BookstoreItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookstoreItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bookstore_item, parent, false)
@@ -45,11 +45,11 @@ class BookstoreItemAdapter (
             }
 
             itemView.findViewById<TextView>(R.id.buy_button).setOnClickListener{
-                buy_book(book)
+                buyBook(book)
             }
 
             itemView.findViewById<ImageView>(R.id.favorite_image).setOnClickListener {
-                favorite_button(book)
+                favoriteButton(book)
             }
         }
     }

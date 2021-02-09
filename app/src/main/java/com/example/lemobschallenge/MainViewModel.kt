@@ -4,128 +4,113 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import com.example.lemobschallenge.model.Book
 import com.example.lemobschallenge.repository.BookstoreRepository
-import com.example.lemobschallenge.repository.BookstoreRepository.Companion.getPurchasedBooks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel : ViewModel (){
-    lateinit var sharedPreferences : SharedPreferences
+class MainViewModel(context : AppCompatActivity) : ViewModel (){
 
-    var avaiableBooks = MutableLiveData<MutableList<Book>>()
+    var bookstoreRepository = BookstoreRepository(context)
+    var availableBooks = MutableLiveData<MutableList<Book>>()
     var showedBooks = MutableLiveData<MutableList<Book>>()
     var purchasedBooks  = MutableLiveData<MutableList<Book>>()
     var walletValue = MutableLiveData<Float>()
 
     init{
         Log.d("Debugging", "Initializing view model")
-        avaiableBooks.value = mutableListOf<Book>()
         showedBooks.value = mutableListOf<Book>()
-        purchasedBooks.value = mutableListOf<Book>()
         walletValue.value = 0.toFloat()
     }
 
     fun getAllData()
     {
+        getPurchasedBooks()
+        getAvailableBooks()
+        getWalletValue()
+
+    }
+
+    fun getAvailableBooks()
+    {
         CoroutineScope(Dispatchers.IO).launch {
-
-            getAvailableBooks()
-            getShowedBooks()
-            getPurshasedBooks()
-            withContext(Dispatchers.Main)
-            {
-                showedBooks.value = showedBooks.value
-                walletValue.value = BookstoreRepository.getWalletValue()
-                showedBooks.value?.sortBy { !it.isFavorite }
-            }
+            val books = bookstoreRepository.getAvailableBooks()
+            availableBooks.postValue(books)
         }
     }
-    suspend fun getAvailableBooks()
+
+    private fun getPurchasedBooks()
     {
-        avaiableBooks.value?.clear()
+        CoroutineScope(Dispatchers.IO).launch {
+            purchasedBooks.postValue(bookstoreRepository.getPurchasedBooks())
 
-        var allBooks = BookstoreRepository.getBooks()
-
-        var purchasedBooks = BookstoreRepository.getPurchasedBooks()
-
-        var bookList = mutableListOf<Book>()
-
-        allBooks.forEach{
-            val old = it
-            purchasedBooks?.let {
-                if(purchasedBooks.contains(old.title))
-                {
-                    bookList.add(old)
-                }
-            }
         }
-        bookList.forEach{
-            allBooks.remove(it)
-        }
-
-        avaiableBooks.value?.addAll(allBooks)
-
     }
 
-    suspend fun getShowedBooks(filterText : String = "")
+    private fun getWalletValue()
     {
-        showedBooks.value?.clear()
-        if(filterText == "")
-        {
+        CoroutineScope(Dispatchers.IO).launch {
+            walletValue.postValue(bookstoreRepository.getWalletValue())
+        }
+    }
 
-            avaiableBooks.value?.forEach{
-
+    fun createShowedBooks()
+    {
+        CoroutineScope(Dispatchers.IO).launch {
+            showedBooks.value?.clear()
+            availableBooks.value?.forEach {
                 showedBooks.value?.add(it)
             }
-        }else{
-            avaiableBooks.value?.forEach{
-                if(it.title.toUpperCase().contains(filterText.toUpperCase()))
-                    showedBooks.value?.add(it)
-            }
+            showedBooks.value?.sortBy { !it.isFavorite }
+            notifyDataChanged(showedBooks)
         }
     }
 
-    fun filterShowedBooks(s : String)
+    fun filterShowedBooks(filterText : String)
     {
         CoroutineScope(Dispatchers.IO).launch {
-            getShowedBooks(s)
-            withContext(Dispatchers.Main)
-            {
-                showedBooks.value = showedBooks.value
+            showedBooks.value?.clear()
+            if (filterText == "") {
+
+                availableBooks.value?.forEach {
+
+                    showedBooks.value?.add(it)
+                }
+            } else {
+                availableBooks.value?.forEach {
+                    if (it.title.toUpperCase().contains(filterText.toUpperCase()))
+                        showedBooks.value?.add(it)
+                }
             }
+            showedBooks.value?.sortBy { !it.isFavorite }
+            notifyDataChanged(showedBooks)
         }
     }
 
-    fun buy_book(book:Book) : Int
+    fun buyBook(book:Book) : Int
     {
-        if(BookstoreRepository.getWalletValue() >= book.price) {
-            BookstoreRepository.addPurchasedBook(book.title)
-            var auxBook : Book? = null
-            avaiableBooks.value?.forEach{
-                if( book.title == it.title)
-                {
-                    auxBook = it
-                }
-            }
+        if(bookstoreRepository.getWalletValue() >= book.price)
+        {
+            bookstoreRepository.addPurchasedBook(book.title)
 
-            auxBook?.let {
-                avaiableBooks.value?.remove(auxBook)
-                showedBooks.value?.remove(auxBook)
-            }
-            showedBooks.value = showedBooks.value
+            availableBooks.value?.remove(book)
+            showedBooks.value?.remove(book)
 
             walletValue.value?.let {
                 walletValue.value = it - book.price
             }
             walletValue.value?.let {
-                BookstoreRepository.setWalletValue(it)
+                bookstoreRepository.setWalletValue(it)
             }
 
             purchasedBooks.value?.add(book)
-            purchasedBooks.value = purchasedBooks.value
+
+            notifyDataChangedS(showedBooks)
+            notifyDataChangedS(purchasedBooks)
             return 1
         }else
         {
@@ -133,45 +118,27 @@ class MainViewModel : ViewModel (){
         }
     }
 
-    fun favorite_buttton(book : Book)
+    fun favoriteButton(book : Book)
     {
         if(book.isFavorite == false)
         {
-            BookstoreRepository.addFavoriteBook(book.title)
+            bookstoreRepository.addFavoriteBook(book.title)
             book.isFavorite = true
         }else
         {
-            BookstoreRepository.removeFavoriteBook(book.title)
+            bookstoreRepository.removeFavoriteBook(book.title)
             book.isFavorite = false
         }
     }
 
-    fun putSharedPreferences(shared : SharedPreferences)
-    {
-        BookstoreRepository.sharedPreferences = shared
-    }
-
-    fun getPurshasedBooks()
-    {
-        CoroutineScope(Dispatchers.IO).launch {
-            purchasedBooks.value?.clear()
-
-            var books = BookstoreRepository.getBooks()
-            var purchasedBooksTitles = getPurchasedBooks()
-
-            books.forEach{ book ->
-                purchasedBooks.value?.let {
-                    if(purchasedBooksTitles?.contains(book.title) == true)
-                    {
-                        it.add(book)
-                    }
-                }
-            }
-            withContext(Dispatchers.Main)
-            {
-                purchasedBooks.value = purchasedBooks.value
-            }
+    private suspend fun <T : Any?>notifyDataChanged(data : MutableLiveData<T>){
+        withContext(Dispatchers.Main)
+        {
+            data.value = data.value
         }
+    }
+    private fun <T : Any?>notifyDataChangedS(data : MutableLiveData<T>) {
+        data.value = data.value
     }
 
 }
