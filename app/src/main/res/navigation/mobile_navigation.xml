@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation_menu"
+    app:startDestination="@id/bookshelf">
+
+    <fragment
+        android:id="@+id/bookshelf"
+        android:orderInCategory="1"
+        android:name="com.example.lemobschallenge.pages.BookshelfFragment"
+        android:label="BookshelfFragment" >
+        <action
+            android:id="@+id/action_bookshelfFragment_to_bookstoreFragment"
+            app:destination="@id/bookstore" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookstore"
+        android:orderInCategory="2"
+        android:name="com.example.lemobschallenge.pages.BookstoreFragment"
+        android:label="BookstoreFragment" >
+        <action
+            android:id="@+id/action_bookstoreFragment_to_bookshelfFragment"
+            app:destination="@id/bookshelf" />
+    </fragment>
+</navigation>
