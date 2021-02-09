@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bookstore"
+        android:icon="@drawable/shoppingcart"
+        app:showAsAction="always"
+        android:title="bookstore" />
+
+    <item
+        android:id="@+id/bookshelf"
+        android:icon="@drawable/bookshelficon"
+
+        app:showAsAction="always"
+        android:title="bookshelf" />
+
+</menu>
