@@ -1,5 +1,8 @@
 # lemobsChallenge
-Repositório contendo o código fonte do desafio técnico, a qual fui submetido, para vaga de estágio na Lemobs.
+Repositório contendo o código fonte do desafio técnico, o qual fui submetido, para vaga de estágio na Lemobs.
+
+## Visualização do Aplicativo Pronto 
+<img src="screen.gif" width="240"/>
 
 ## O Desafio
 Consiste em criar um aplicativo android de uma biblioteca de livros virtuais.
@@ -47,14 +50,14 @@ aparecem no topo da lista.
 * Uso de SharedPreferences para salvar o dinheiro.
 
 ## Andamento
-### Aplicação
-- [x] Tela para listar livros obtidos.
-- [x] Tela para listar livros disponiveis na loja.
-- [x] Mostrar saldo na tela e o manter no SharedPreferences.
-- [x] Requisição, exibição dos livros na página de compra.
+### Requisitos Obrigatórios
+- [x] Tela para listar livros comprados.
+- [x] Tela para listar livros disponíveis na loja.
+- [x] Mostrar saldo em ambas as telas.
+- [x] Requisitar os livros através de uma chamada GET e os exibir na página de compra.
 - [x] Possibilidade de compra dos livros.
-- [x] Dispospor livros compradados na lista de livros obtidos.
-### Funcionalidades extras
+- [x] Exibição dos livros comprados na tela Meus Livros.
+### Funcionalidades Extras
 - [x] Conseguir dar Zoom na imagem dos livros.
 - [x] Criatividade na criação das telas do aplicativo.
 - [x] Uso de padrões arquiteturais.
@@ -65,9 +68,6 @@ aparecem no topo da lista.
 - [x] Usar Kotlin.
 - [x] Uso de Mvp ou de MVVM.
 - [x] Uso de SharedPreferences para salvar o dinheiro.
-### Possiveis melhorias
+### Possiveis Melhorias
 - [x] Mensagem mostrando o êxito ou a falha na compra.
 - [x] O uso de `Fragments` para a transição entre as telas.
-
-## Resultados
-<img src="screen.gif" width="200">
