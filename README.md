@@ -70,4 +70,4 @@ aparecem no topo da lista.
 - [x] O uso de `Fragments` para a transição entre as telas.
 
 ## Resultados
-![](screen.gif)
+<img src="screen.gif" width="200">
