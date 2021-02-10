@@ -1,4 +1,4 @@
-# lemobsChallenge
+# Lemobs Challenge
 Repositório contendo o código fonte do desafio técnico, o qual fui submetido, para vaga de estágio na Lemobs.
 
 ## Visualização do Aplicativo Pronto 
