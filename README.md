@@ -67,4 +67,7 @@ aparecem no topo da lista.
 - [x] Uso de SharedPreferences para salvar o dinheiro.
 ### Possiveis melhorias
 - [x] Mensagem mostrando o êxito ou a falha na compra.
-- [ ] O uso de `Fragments` para a transição entre as telas.
+- [x] O uso de `Fragments` para a transição entre as telas.
+
+## Resultados
+![](screen.gif)
