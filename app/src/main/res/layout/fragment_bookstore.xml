@@ -5,7 +5,7 @@
     android:id="@+id/bookstoreContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     android:background="@color/white">
 
     <androidx.cardview.widget.CardView

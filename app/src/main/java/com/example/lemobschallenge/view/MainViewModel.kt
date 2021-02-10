@@ -1,13 +1,11 @@
-package com.example.lemobschallenge
+package com.example.lemobschallenge.view
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import com.example.lemobschallenge.model.Book
-import com.example.lemobschallenge.repository.BookstoreRepository
+import com.example.lemobschallenge.repository.BooksRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(context : AppCompatActivity) : ViewModel (){
 
-    var bookstoreRepository = BookstoreRepository(context)
+    var bookstoreRepository = BooksRepository(context)
     var availableBooks = MutableLiveData<MutableList<Book>>()
     var showedBooks = MutableLiveData<MutableList<Book>>()
     var purchasedBooks  = MutableLiveData<MutableList<Book>>()

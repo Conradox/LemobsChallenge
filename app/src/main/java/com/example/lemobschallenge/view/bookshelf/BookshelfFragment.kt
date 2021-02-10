@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 
-import com.example.lemobschallenge.MainViewModel
+import com.example.lemobschallenge.view.MainViewModel
 
 import com.example.lemobschallenge.databinding.FragmentBookshelfBinding
 

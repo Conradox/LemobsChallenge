@@ -1,10 +1,11 @@
-package com.example.lemobschallenge
+package com.example.lemobschallenge.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.lemobschallenge.R
 import com.example.lemobschallenge.databinding.MainActivityBinding
 import com.example.lemobschallenge.utils.SomeViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView

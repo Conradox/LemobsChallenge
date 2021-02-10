@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 
-class BookstoreRepository (context : AppCompatActivity){
+class BooksRepository (context : AppCompatActivity){
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), MODE_PRIVATE)
 
     private suspend fun getBooks() : MutableList<Book>

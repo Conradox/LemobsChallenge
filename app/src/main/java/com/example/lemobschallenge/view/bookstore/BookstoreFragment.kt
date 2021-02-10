@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.lemobschallenge.MainViewModel
+import com.example.lemobschallenge.view.MainViewModel
 import com.example.lemobschallenge.model.Book
 import com.example.lemobschallenge.databinding.FragmentBookstoreBinding
 
