@@ -28,22 +28,14 @@ class BookshelfFragment : Fragment() {
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
 
-        //sharedPreferences.edit().clear().apply()
         binding = FragmentBookshelfBinding.inflate(layoutInflater)
 
         val view = binding.root
 
         binding.bookshelfRecycleview.layoutManager = GridLayoutManager(activity, 3)
 
-        /*
-        viewModel.purchasedBooks.value?.let{
-
-        }
-        */
-
         viewModel.purchasedBooks.observe(viewLifecycleOwner, Observer {
             binding.bookshelfRecycleview.adapter = BookshelfItemAdapter(it)
-            //binding.bookshelfRecycleview.adapter?.notifyDataSetChanged()
         })
 
         viewModel.walletValue.observe(viewLifecycleOwner, Observer {
@@ -53,18 +45,10 @@ class BookshelfFragment : Fragment() {
         return view
     }
 
-    fun showWallet()
+    private fun showWallet()
     {
         binding.walletValue.text = "%.2f".format(viewModel.walletValue.value).replace(".", ",")
     }
 
-
 }
-/*
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAllData()
-    }
-*/
-
 
