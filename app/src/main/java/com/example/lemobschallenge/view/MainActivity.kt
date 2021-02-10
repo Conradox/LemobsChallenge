@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity() {
         binding = MainActivityBinding.inflate(layoutInflater)
 
         val view = binding.root
+
         setContentView(view)
 
-        //sharedPreferences.edit().clear().apply()
         viewModel = ViewModelProvider(this, SomeViewModelFactory(this)).get(MainViewModel::class.java)
 
         viewModel.getAllData()
